@@ -1,11 +1,11 @@
+from nodes.base_node import PromptGeneratorNode
+
 NODE_DISPLAY_NAME_MAPPINGS = {
-    **ULTRA_REP_NODE_DISPLAY_NAME_MAPPINGS,
-    **REP_NODE_DISPLAY_NAME_MAPPINGS
+    "SML_Prompt_Generator": PromptGeneratorNode,
 }
 
 NODE_CLASS_MAPPINGS = {
-    **ULTRA_REP_NODE_CLASS_MAPPINGS,
-    **REP_NODE_CLASS_MAPPINGS
+    "SML_Prompt_Generator": "😃 SML Prompt Generator"
 }
 
 __all__ = ["NODE_CLASS_MAPPINGS", "NODE_DISPLAY_NAME_MAPPINGS"]

@@ -3,11 +3,11 @@ import configparser
 
 class Config:
     def __init__(self):
-        self.api_token = None
-        self.set_api_token()
+        self._api_token = None
 
-    def set_api_token(self):
-        if self.api_token is None:
+    @property
+    def api_token(self):
+        if self._api_token is None:
             current_dir = os.path.dirname(os.path.abspath(__file__))
             parent_dir = os.path.dirname(current_dir)
             config_path = os.path.join(parent_dir, "config.ini")
@@ -17,6 +17,9 @@ class Config:
 
             try:
                 deepseek_token = config['API']['DEEPSEEK_API_TOKEN']
-                self.api_token = deepseek_token
+                self._api_token = deepseek_token
             except KeyError:
                 print("Error: DEEPSEEK_API_TOKEN not found in config.ini")
+
+        return self._api_token
+
