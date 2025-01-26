@@ -74,6 +74,8 @@ class PromptGeneratorNode:
         num = len(sentences)
         count = int(num / 4)
 
+        count = min(count, 3) # not more than 3 random sentences
+
         if count <= 1:
             count = 1
 
