@@ -18,7 +18,20 @@ class PromptGeneratorNode:
                         "multiline": True
                     }
                 ),
-                "seed": ("INT", {"default": 0, "min": 0, "max": 100_000_000_000}),
+                "seed": (
+                    "INT", {
+                        "default": -1,
+                        "min": 0,
+                        "max": 100_000_000_000
+                    }
+                ),
+                "output_widget": (
+                    "STRING", {
+                        "default": '',
+                        "multiline": True,
+                        "forceInput": False
+                    }
+                ),
             },
         }
 
@@ -32,6 +45,7 @@ class PromptGeneratorNode:
             self,
             prompt: str,
             seed: int,
+            output_widget: str,
     ):
         config = APIConfig()
 
@@ -65,7 +79,8 @@ class PromptGeneratorNode:
 
         # print(f"{output=}")
 
-        return (output,)  # Return the output
+        # return (output,)
+        return {"ui": {"text": output}, "result": (output,)}
 
     def get_random_sentences(self, paragraph):
         sentences = paragraph.split(".")
@@ -74,7 +89,7 @@ class PromptGeneratorNode:
         num = len(sentences)
         count = int(num / 4)
 
-        count = min(count, 3) # not more than 3 random sentences
+        count = min(count, 3)  # not more than 3 random sentences
 
         if count <= 1:
             count = 1
