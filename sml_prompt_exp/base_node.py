@@ -1,8 +1,11 @@
 from .exp_config import APIConfig
+from openai import OpenAI
+import random
 
 
 class PromptGeneratorNode:
     api_token: str = None
+    previous_output: str = None
 
     @classmethod
     def INPUT_TYPES(cls):
@@ -14,11 +17,12 @@ class PromptGeneratorNode:
                         "multiline": True
                     }
                 ),
+                "seed": ("INT", {"default": 0, "min": 0, "max": 100_000_000_000}),
             },
         }
 
     RETURN_TYPES = ("STRING",)
-    RETURN_NAMES = ("final_prompt", )
+    RETURN_NAMES = ("final_prompt",)
     FUNCTION = "process"
     CATEGORY = "SML Prompt Expansion"
     OUTPUT_NODE = True
@@ -26,29 +30,60 @@ class PromptGeneratorNode:
     def process(
             self,
             prompt: str,
+            seed: int,
     ):
-        from openai import OpenAI
-        import random
         config = APIConfig()
 
         client = OpenAI(api_key=config.api_token, base_url="https://api.deepseek.com")
 
-        seed =  random.randint(0, 100_000_000_000)
+        if not seed or seed == -1:
+            seed = random.randint(0, 100_000_000_000)
+
+        prompt = self.construct_prompt(prompt)
+
+        char_count = random.randint(1000, 5000)
+
+        # print(f"{prompt=}")
+        # print(f"{self.previous_output=}")
+
+        user_content = f"Please expand this prompt: \"{prompt}\". Limit response to {char_count} characters."
 
         response = client.chat.completions.create(
             model="deepseek-chat",
             messages=[
                 {"role": "system",
                  "content": "You are a creative writer tasked to turn basic stable diffusion prompts into something expressive and beautiful. "},
-                {"role": "user", "content": f"Please expand this prompt: \"{prompt}\". Please ignore the rest of the text starting from here: {seed}" },
+                {"role": "user", "content": user_content},
             ],
             stream=False,
             temperature=1.5,
+            seed=seed,
         )
 
         output = response.choices[0].message.content
-        return (output, )  # Return the output
+        self.previous_output = output
 
+        # print(f"{output=}")
 
+        return (output,)  # Return the output
 
+    def get_random_sentences(self, paragraph):
+        sentences = paragraph.split(".")
+        sentences = [s for s in sentences if s.strip()]
 
+        num = len(sentences)
+        count = int(num / 4)
+
+        if count <= 1:
+            count = 1
+
+        return random.sample(sentences, count)
+
+    def construct_prompt(self, input: str):
+        p = input
+        if self.previous_output is not None:
+            rs = self.get_random_sentences(self.previous_output)
+            r = '. '.join(rs)
+            p = f"{p}. {r}."
+
+        return p
