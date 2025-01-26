@@ -6,7 +6,7 @@ import random
 class PromptGeneratorNode:
     api_token: str = None
     previous_output: str = None
-    use_char_limit: bool = False
+    use_char_limit: bool = True
 
     @classmethod
     def INPUT_TYPES(cls):
@@ -45,14 +45,14 @@ class PromptGeneratorNode:
         user_content = f"Please expand this prompt: \"{prompt}\"."
 
         if self.use_char_limit:
-            char_count = random.randint(1000, 5000)
+            char_count = random.randint(1000, 3000)
             user_content = f"{user_content} Please expand this prompt to {char_count} characters."
 
         response = client.chat.completions.create(
             model="deepseek-chat",
             messages=[
                 {"role": "system",
-                 "content": "You are a creative writer tasked to turn basic stable diffusion prompts into something expressive and beautiful. "},
+                 "content": "You are a creative writer tasked to turn basic stable diffusion prompts into something expressive, succinct, and beautiful. "},
                 {"role": "user", "content": user_content},
             ],
             stream=False,
