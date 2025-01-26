@@ -44,3 +44,25 @@ cp config.ini.example config.ini
 ```
 
 Start ComfyUI.
+
+## Parameters
+
+![workflow-0.png](static/workflow-0.png)
+
+- **prompt**. The prompt to expand.
+- **min_char**. Minimum number of characters to generate.
+- **max_char**. Maximum number of characters to generate.
+
+Setting min 1000, max 3000 will generate between 1000 and 3000 characters. This prompt length is generally good for models like Flux and SDXL. If you’re working with SD 1.5, you may wish to set this to a lower value. 
+
+This prompt expansion node is not intended for SD 1.5, since SD 1.5 uses a different style of prompt.
+
+## Example
+
+![workflow-1.png](static/workflow-1.png)
+
+This shows a very simple prompt expanded into a complex paragraph.
+
+## Suggestions
+
+Please open an issue if you have any suggestions or questions.
