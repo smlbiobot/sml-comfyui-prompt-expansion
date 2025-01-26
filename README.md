@@ -63,6 +63,10 @@ This prompt expansion node is not intended for SD 1.5, since SD 1.5 uses a diffe
 
 This shows a very simple prompt expanded into a complex paragraph.
 
+![workflow-flux-pro-ultra.png](static/workflow-flux-pro-ultra.png)
+
+A real example for Flux Pro Ultra output. 
+
 ## Suggestions
 
 Please open an issue if you have any suggestions or questions.
