@@ -21,7 +21,7 @@ class PromptGeneratorNode:
                 "seed": (
                     "INT", {
                         "default": -1,
-                        "min": 0,
+                        "min": -1,
                         "max": 100_000_000_000
                     }
                 ),
@@ -29,7 +29,8 @@ class PromptGeneratorNode:
                     "STRING", {
                         "default": '',
                         "multiline": True,
-                        "forceInput": False
+                        "forceInput": False,
+                        "readonly": True,
                     }
                 ),
             },
@@ -77,10 +78,7 @@ class PromptGeneratorNode:
         output = response.choices[0].message.content
         self.previous_output = output
 
-        # print(f"{output=}")
-
-        # return (output,)
-        return {"ui": {"text": output}, "result": (output,)}
+        return {"ui": {"output_widget": output}, "result": (output,)}
 
     def get_random_sentences(self, paragraph):
         sentences = paragraph.split(".")
