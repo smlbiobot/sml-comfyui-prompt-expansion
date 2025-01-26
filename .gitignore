@@ -1,1 +1,10 @@
 config.ini
+__pycache__/
+*.pyc
+*.pyo
+*.so
+*.a
+*.o
+*.so.*
+*.a.*
+*.o.*

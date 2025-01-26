@@ -15,14 +15,6 @@ class PromptGeneratorNode:
                     }
                 ),
             },
-            "optional": {
-                "expanded": (
-                    "STRING", {
-                        "default": "",
-                        "multiline": True
-                    }
-                ),
-            },
         }
 
     RETURN_TYPES = ("STRING",)

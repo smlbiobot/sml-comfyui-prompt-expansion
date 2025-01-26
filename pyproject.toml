@@ -1,0 +1,15 @@
+[project]
+name = "sml-comfyui-prompt-expansion"
+description = "Prompt Expansion for Stable Diffusion, using Deepseek API."
+version = "1.0.0"
+license = {file = "LICENSE"}
+dependencies = ["openai"]
+
+[project.urls]
+Repository = "https://github.com/smlbiobot/sml-comfyui-prompt-expansion"
+#  Used by Comfy Registry https://comfyregistry.org
+
+[tool.comfy]
+PublisherId = "seeminglee"
+DisplayName = "sml-comfyui-prompt-expansion"
+Icon = ""
