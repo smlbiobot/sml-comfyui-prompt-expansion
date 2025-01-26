@@ -1,7 +1,7 @@
 import os
 import configparser
 
-class Config:
+class APIConfig:
     def __init__(self):
         self._api_token = None
 
