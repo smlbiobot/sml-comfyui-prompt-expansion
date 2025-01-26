@@ -25,9 +25,23 @@ class PromptGeneratorNode:
                         "max": 100_000_000_000
                     }
                 ),
+                "min_char": (
+                    "INT", {
+                        "default": 1000,
+                        "min": 10,
+                        "max": 5000,
+                    }
+                ),
+                "max_char": (
+                    "INT", {
+                        "default": 3000,
+                        "min": 10,
+                        "max": 10000,
+                    }
+                ),
                 "output_widget": (
                     "STRING", {
-                        "default": '',
+                        "default": 'Final prompt will display here. \n\nSet minimum and maximum characters to control output length. 1000 min and 3000 max is a good range to start. ',
                         "multiline": True,
                         "forceInput": False,
                         "readonly": True,
@@ -46,6 +60,8 @@ class PromptGeneratorNode:
             self,
             prompt: str,
             seed: int,
+            min_char: int,
+            max_char: int,
             output_widget: str,
     ):
         config = APIConfig()
@@ -60,7 +76,7 @@ class PromptGeneratorNode:
         user_content = f"Please expand this prompt: \"{prompt}\"."
 
         if self.use_char_limit:
-            char_count = random.randint(1000, 3000)
+            char_count = random.randint(min_char, max_char)
             user_content = f"{user_content} Please expand this prompt to {char_count} characters."
 
         response = client.chat.completions.create(
