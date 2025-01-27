@@ -5,6 +5,7 @@ import random
 
 class PromptGeneratorNode:
     api_token: str = None
+    previous_input:str = None
     previous_output: str = None
     use_char_limit: bool = True
 
@@ -123,9 +124,14 @@ class PromptGeneratorNode:
 
     def construct_prompt(self, input: str):
         p = input
-        if self.previous_output is not None:
-            rs = self.get_random_sentences(self.previous_output)
-            r = '. '.join(rs)
-            p = f"{p}. {r}."
+
+        if self.previous_input == input:
+            # if the same input is used, add a random sentence from previous input to ensure result is not repeated
+            if self.previous_output is not None:
+                rs = self.get_random_sentences(self.previous_output)
+                r = '. '.join(rs)
+                p = f"{p}. {r}."
+
+        self.previous_input = input
 
         return p
