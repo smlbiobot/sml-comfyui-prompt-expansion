@@ -71,7 +71,7 @@ The DeepSeek engine is used to generate the expanded prompt. It has a caching me
 
 This shows a very simple prompt expanded into a complex paragraph.
 
-![workflow-flux-pro-ultra.png](static/workflow-flux-pro-ultra.png)
+![workflow-flux-pro-ultra.png](workflow/workflow-flux-pro-ultra.png)
 
 A real example for Flux Pro Ultra output.
 
