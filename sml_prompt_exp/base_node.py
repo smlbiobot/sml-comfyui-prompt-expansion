@@ -12,6 +12,12 @@ class PromptGeneratorNode:
     def INPUT_TYPES(cls):
         return {
             "required": {
+                "system_prompt": (
+                    "STRING", {
+                        "default": "You are a creative writer tasked to turn basic stable diffusion prompts into something expressive, succinct, and beautiful.",
+                        "multiline": True
+                    }
+                ),
                 "prompt": (
                     "STRING", {
                         "default": "",
@@ -58,6 +64,7 @@ class PromptGeneratorNode:
 
     def process(
             self,
+            system_prompt: str,
             prompt: str,
             seed: int,
             min_char: int,
@@ -82,9 +89,13 @@ class PromptGeneratorNode:
         response = client.chat.completions.create(
             model="deepseek-chat",
             messages=[
-                {"role": "system",
-                 "content": "You are a creative writer tasked to turn basic stable diffusion prompts into something expressive, succinct, and beautiful. "},
-                {"role": "user", "content": user_content},
+                {
+                    "role": "system",
+                    "content": system_prompt},
+                {
+                    "role": "user",
+                    "content": user_content
+                },
             ],
             stream=False,
             temperature=1.5,
